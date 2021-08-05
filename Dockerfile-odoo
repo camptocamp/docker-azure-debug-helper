@@ -1,0 +1,10 @@
+FROM ghcr.io/camptocamp/azure-debug-helper:common
+
+# Use bash to build image for dynamic variables substitution
+SHELL ["/bin/bash", "-c"]
+
+# Install keys for external repository
+RUN apt-get update && \
+    apt-get install -y redis-tools && \
+    apt-get clean && \
+    rm -rf /var/apt/lists/*

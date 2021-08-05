@@ -1,0 +1,30 @@
+---
+name: Build Azure Helper images
+
+on:
+  schedule:
+    - cron: "2 2 * * SUN"
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: camptocamp/initialise-gopass-summon-action@v2
+        with:
+          ci-gpg-private-key: ${{secrets.CI_GPG_PRIVATE_KEY}}
+          github-gopass-ci-token: ${{secrets.GOPASS_CI_GITHUB_TOKEN}}
+          patterns: docker
+
+      - name: "Build and Push images"
+        run: |
+          docker-compose build --pull base-image
+          docker-compose push base-image
+          docker-compose build odoo
+          docker-compose push odoo

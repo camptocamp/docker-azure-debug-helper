@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  base-image:
+    image: ghcr.io/camptocamp/azure-debug-helper:common
+    build:
+      context: .
+      dockerfile: Dockerfile-common
+  odoo:
+    image: ghcr.io/camptocamp/azure-debug-helper:odoo
+    build:
+      context: .
+      dockerfile: Dockerfile-odoo

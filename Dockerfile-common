@@ -1,7 +1,7 @@
 FROM debian:buster
 
 
-ENV TOOLS="git curl ca-certificates gnupg apt-transport-https rsync vim-nox emacs-nox screen wget file nano htop sudo tree less bash-completion zsh figlet colordiff unzip" \
+ENV TOOLS="git curl ca-certificates gnupg apt-transport-https rsync vim-nox emacs-nox screen wget file nano htop sudo tree less bash-completion zsh figlet colordiff unzip tmux" \
     PGDG_KEY="https://www.postgresql.org/media/keys/ACCC4CF8.asc" \
     PGDG_REPO="deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" \
     PGDG_PACKAGE="postgresql-client-9.2 postgresql-client-9.3 postgresql-client-9.4 postgresql-client-9.5 postgresql-client-9.6 postgresql-client-10 postgresql-client-11  postgresql-client-12 libpq-dev" \

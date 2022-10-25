@@ -2,8 +2,6 @@
 name: Build Azure Helper images
 
 on:
-  schedule:
-    - cron: "2 2 * * SUN"
   push:
     branches:
     - master

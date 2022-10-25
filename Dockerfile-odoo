@@ -1,6 +1,6 @@
 FROM ghcr.io/camptocamp/azure-debug-helper:common
 
-COPY banner ~/banner
+COPY banner /root/banner
 
 # Use bash to build image for dynamic variables substitution
 SHELL ["/bin/bash", "-c"]
@@ -10,4 +10,4 @@ RUN apt-get update && \
     apt-get install -y redis-tools && \
     apt-get clean && \
     rm -rf /var/apt/lists/*
-RUN echo "cat ~/banner" >> ~/.bashrc
+RUN echo "cat /root/banner" >> /root/.bashrc

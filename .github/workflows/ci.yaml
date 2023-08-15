@@ -26,3 +26,5 @@ jobs:
           docker-compose push base-image
           docker-compose build odoo
           docker-compose push odoo
+          docker-compose build pulumi
+          docker-compose push pulumi

@@ -1,0 +1,8 @@
+FROM ghcr.io/camptocamp/azure-debug-helper:odoo
+
+ARG PULUMI_VERSION=3.78.0
+
+WORKDIR /workspace
+
+RUN curl -fsSL https://get.pulumi.com | sh -s -- --version $PULUMI_VERSION
+ENV PATH /root/.pulumi/bin:$PATH

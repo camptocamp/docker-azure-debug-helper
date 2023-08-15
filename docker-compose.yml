@@ -11,3 +11,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-odoo
+  pulumi:
+    image: ghcr.io/camptocamp/azure-debug-helper:pulumi
+    build:
+      context: .
+      dockerfile: Dockerfile-pulumi

@@ -1,6 +1,6 @@
 FROM ghcr.io/camptocamp/azure-debug-helper:odoo
 
-ARG PULUMI_VERSION=3.78.0
+ARG PULUMI_VERSION=3.195.0
 
 WORKDIR /workspace
 

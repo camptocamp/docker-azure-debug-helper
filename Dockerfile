@@ -1,20 +1,20 @@
-FROM debian:buster
+FROM debian:trixie-slim
 
 LABEL maintainer="georchestra@camptocamp.com"
 
-ENV GOVERSION="1.15" \
+ENV GOVERSION="1.25" \
     GOPATH="/go" \
     GOROOT="/goroot" \
     GO111MODULE=on \
     TOOLS="openssh-server groff awscli rsync vim-nox emacs-nox screen gdal-bin pktools wget file python-gdal nano htop sudo tree less bash-completion zsh figlet colordiff unzip python3 python3-pip" \
     DOCKER_KEY="https://download.docker.com/linux/debian/gpg" \
-    DOCKER_REPO="deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
+    DOCKER_REPO="deb [arch=amd64 signed-by=/etc/apt/trusted.asc.d/gpg.asc] https://download.docker.com/linux/debian trixie stable" \
     DOCKER_PACKAGE="docker-ce-cli" \
     PGDG_KEY="https://www.postgresql.org/media/keys/ACCC4CF8.asc" \
-    PGDG_REPO="deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" \
+    PGDG_REPO="deb [arch=amd64 signed-by=/etc/apt/keyrings/ACCC4CF8.asc] http://apt.postgresql.org/pub/repos/apt/ trixie-pgdg main" \
     PGDG_PACKAGE="postgresql-client-9.2 postgresql-client-9.3 postgresql-client-9.4 postgresql-client-9.5 postgresql-client-9.6 postgresql-client-10 postgresql-client-11  postgresql-client-12 libpq-dev" \
     AZURE_KEY="https://packages.microsoft.com/keys/microsoft.asc" \
-    AZURE_REPO="deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ buster main" \
+    AZURE_REPO="deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/azure-cli/ bookworm main" \
     AZURE_PACKAGE="azure-cli"
 
 # Use bash to build image for dynamic variables substitution
@@ -34,7 +34,7 @@ RUN apt-get update \
 
 # Install keys for external repository
 RUN for key in "${DOCKER_KEY} ${PGDG_KEY} ${AZURE_KEY}"; do \
-      curl -fsSL $key | apt-key add - ;\
+      curl -fsSL $key -o /etc/apt/keyrings/$(echo $key | awk -F/ '{print $NF}') ;\
     done && \
     for key in DOCKER_REPO PGDG_REPO AZURE_REPO; do \
       echo ${!key} >> /etc/apt/sources.list ;\

@@ -1,27 +1,30 @@
-FROM debian:buster
+FROM debian:trixie-slim
 
 
 ENV TOOLS="git curl ca-certificates gnupg apt-transport-https rsync vim-nox emacs-nox screen wget file nano htop sudo tree less bash-completion zsh figlet colordiff unzip tmux" \
     PGDG_KEY="https://www.postgresql.org/media/keys/ACCC4CF8.asc" \
-    PGDG_REPO="deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" \
+    PGDG_REPO="deb [arch=amd64 signed-by=/etc/apt/keyrings/ACCC4CF8.asc] http://apt.postgresql.org/pub/repos/apt/ trixie-pgdg main" \
     PGDG_PACKAGE="postgresql-client-9.2 postgresql-client-9.3 postgresql-client-9.4 postgresql-client-9.5 postgresql-client-9.6 postgresql-client-10 postgresql-client-11  postgresql-client-12 postgresql-client-13 postgresql-client-14 postgresql-client-15 libpq-dev pgtop" \
     AZURE_KEY="https://packages.microsoft.com/keys/microsoft.asc" \
-    AZURE_REPO="deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ buster main" \
+    AZURE_REPO="deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/azure-cli/ bookworm main" \
     AZURE_PACKAGE="azure-cli"
 
 # Use bash to build image for dynamic variables substitution
 SHELL ["/bin/bash", "-c"]
 
 # Install keys for external repository
-RUN apt-get update && \
-    apt-get install -y ${TOOLS} && \
+RUN  apt-get update && \
+    apt-get install -y ${TOOLS} && \ 
     for key in "${PGDG_KEY} ${AZURE_KEY}"; do \
-      curl -fsSL $key | apt-key add - ;\
+      curl -fsSL $key -o /etc/apt/keyrings/$(echo $key | awk -F/ '{print $NF}') ;\
     done && \
-    for key in PGDG_REPO AZURE_REPO; do \
-      echo ${!key} >> /etc/apt/sources.list ;\
-    done && \
+    echo $PGDG_REPO > /etc/apt/sources.list.d/pgdg.list && \
+    echo $AZURE_REPO > /etc/apt/sources.list.d/azure-cli.list && \
     apt-get update && \
     apt-get install -y ${AZURE_PACKAGE} ${PGDG_PACKAGE} && \
     apt-get clean && \
     rm -rf /var/apt/lists/*
+    # apt-get update && \
+    # apt-get install -y ${AZURE_PACKAGE} ${PGDG_PACKAGE} && \
+    # apt-get clean && \
+    #rm -rf /var/apt/lists/*

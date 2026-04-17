@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:trixie
 
 
 ENV TOOLS="git curl ca-certificates gnupg apt-transport-https rsync vim-nox emacs-nox screen wget file nano htop sudo tree less bash-completion zsh figlet colordiff unzip tmux" \

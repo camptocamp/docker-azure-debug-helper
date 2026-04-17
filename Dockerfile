@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:trixie
 
 LABEL maintainer="georchestra@camptocamp.com"
 

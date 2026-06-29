@@ -1,0 +1,9 @@
+Types: deb
+URIs: https://packages.microsoft.com/repos/azure-cli/
+# trixie is not supported by Microsoft, so we use the latest supported Debian release (bookworm) instead
+# See https://github.com/Azure/azure-cli/issues/32069
+Suites: bookworm
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/microsoft.asc
+
